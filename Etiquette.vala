@@ -33,16 +33,20 @@ public class Etiquette : Grid {
 		image.set_halign(Align.START);
 		
 		this.button = new Button();
-		button.label = "launch";
+		button.label = "Launch";
 		button.set_halign(Align.END);
 		button.set_valign(Align.CENTER);
 		button.set_hexpand(true);
 		button.set_margin_end(15);
 		button.set_margin_start(15);
-			
-		this.label = new Label(this._iso.description);
-		label.set_line_wrap(true);
 		
+		this.label = new Label(""+
+							   this._iso.name +
+							   "\n"+
+							   this._iso.description);
+		label.set_line_wrap(true);
+		label.set_use_markup (true);
+
 		this.attach(image, 0, 0, 1, 1);
 		this.attach(label, 1, 0, 1, 1);
 		this.attach(button, 2, 0, 1, 1);
