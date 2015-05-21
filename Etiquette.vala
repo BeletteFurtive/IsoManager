@@ -8,6 +8,12 @@ public class Etiquette : Grid {
 	public string title="Description : \n";
 	public string description="Virtuellement, le corps de GLOUPTI n'est qu'un estomac. Il est capable d'avaler des objets aussi gros que lui. L'estomac de ce POKéMON contient un fluide spécial qui lui permet de digérer n'importe quoi.\n";
 
+	private Image image;
+	private Button button;
+	private Label label;
+
+
+	
     public Iso iso {
         get { return _iso; }
         set { _iso = value; }
@@ -16,29 +22,37 @@ public class Etiquette : Grid {
 	public Etiquette(Iso i) {
 
 		this._iso = i;
+		this.create_widgets();
+		this.connect_signals();		
+	}
 
-		var image = new Image();
+
+	public void create_widgets(){
+		this.image = new Image();
 		image.set_from_file (this._iso.image_path);
 		image.set_halign(Align.START);
-
-		var button = new Button();
+		
+		this.button = new Button();
 		button.label = "launch";
 		button.set_halign(Align.END);
 		button.set_valign(Align.CENTER);
 		button.set_hexpand(true);
-		// button.set_margin_top(15);
 		button.set_margin_end(15);
 		button.set_margin_start(15);
-		// button.set_margin_bottom(15);
-		button.clicked.connect(on_clicked);
-
 			
-		var label = new Label(this._iso.description);
+		this.label = new Label(this._iso.description);
 		label.set_line_wrap(true);
 		
 		this.attach(image, 0, 0, 1, 1);
 		this.attach(label, 1, 0, 1, 1);
 		this.attach(button, 2, 0, 1, 1);
+	   
+	}
+
+	public void connect_signals(){
+		button.clicked.connect(on_clicked);
+
+		
 	}
 
 	private void on_clicked(){

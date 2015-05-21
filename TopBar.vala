@@ -11,14 +11,18 @@ public class TopBar : HeaderBar {
 		this.title = "IsoManager";
 		this.show_close_button = true;
 		
-		this.button_new = new Button();
-		button_new.label = "New";
-		
-		this.add(button_new);
+		this.create_widgets();
 		this.connect_signals();
 		
 	}
 
+	private void create_widgets(){
+		this.button_new = new Button();
+		button_new.label = "New";
+		
+		this.add(button_new);		
+	}
+	
 	private void connect_signals () {
 		this.button_new.clicked.connect (on_button_new_clicked);
 	}
