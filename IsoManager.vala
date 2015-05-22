@@ -33,10 +33,8 @@ public class IsoManager{
 				file.make_directory_with_parents();
 			}
 			if(!save_f.query_exists()){
-				stdout.printf("plop1");
 				save_p.make_directory_with_parents();
 				save_f.create(FileCreateFlags.NONE);
-				stdout.printf("plop2");
 			}
 		} catch (Error e) {
 			stdout.printf ("Error: %s\n", e.message);
@@ -45,45 +43,69 @@ public class IsoManager{
 	
 	public void add_iso(Iso i){
 		this._list_iso.add(i);
-		this.save_iso(i);
 	}
 
 	public void load_iso(){
 		var parser = new Parser();
 		try{
-			parser.load_from_file(this.save_path);
+			parser.load_from_file(this.save_path+save_file);
 			var root = parser.get_root();
-			unowned Json.Object obj = root.get_object ();
+			unowned Json.Object obj_root = root.get_object ();
 
-			foreach (unowned string name in obj.get_members ()) {
-				stdout.printf("%s", name);
+//foreach (unowned string name in obj.get_members ()) {
+			//stdout.printf("%s\n", name);
+			unowned Json.Node iso = obj_root.get_member ("iso");
+			unowned Json.Object obj_iso = iso.get_object ();
+			foreach (unowned string iso_name in obj_iso.get_members ()) {
+				//stdout.printf("%s\n", iso_name);
+				unowned Json.Node property = obj_iso.get_member (iso_name);
+				unowned Json.Object obj_property = property.get_object ();
+				// foreach (unowned string iso_property in obj_property.get_members ()) {
+					//stdout.printf("%s : %s\n", iso_property, obj_property.get_string_member(iso_property));
+					var i = new Iso();
+					i.name = obj_property.get_string_member("name");
+					i.description = obj_property.get_string_member("description");
+					i.path = obj_property.get_string_member("path");
+					i.image_path = obj_property.get_string_member("image_path");
+					this.add_iso(i);
+					// }
 			}
+
+			this.save_iso();
 		} catch(Error e){
-				stdout.printf ("Unable to parse ");
-			}
+			stdout.printf ("Unable to parse : %s\n ", e.message);
 		}
+	}
 
-		public void save_iso(Iso i){
+	public void save_iso(){
+		try{
+			var save_f = File.new_for_path(save_path+save_file);
+			if (save_f.query_exists ()) {
+				save_f.delete ();
+			}
+
 			var builder = new Json.Builder();
 			builder.begin_object ();
-			builder.set_member_name ("iso");
-			builder.begin_object ();
-			builder.set_member_name (i.name);
-
+			
+			builder.set_member_name ("iso");			
 			builder.begin_object();
-			builder.set_member_name ("name");
-			builder.add_string_value (i.name);
-			builder.set_member_name ("description");
-			builder.add_string_value (i.description);
-			builder.set_member_name ("path");
-			builder.add_string_value (i.path);
-			builder.set_member_name ("image_path");
-			builder.add_string_value (i.image_path);
-			builder.end_array ();			
+			
+			
+			foreach(Iso iso in this.list_iso){
+				builder.set_member_name(iso.name);
+				builder.begin_object();
+			
+				builder.set_member_name ("name");
+				builder.add_string_value (iso.name);
+				builder.set_member_name ("description");
+				builder.add_string_value (iso.description);
+				builder.set_member_name ("path");
+				builder.add_string_value (iso.path);
+				builder.set_member_name ("image_path");
+				builder.add_string_value (iso.image_path);
+				builder.end_object ();
+			}
 			builder.end_object ();
-
-			builder.end_object ();
-
 			builder.end_object ();
 
 			var generator = new Generator ();
@@ -91,36 +113,39 @@ public class IsoManager{
 			generator.set_root (root);
 
 			var str = generator.to_data (null);
-
-			FileStream stream = FileStream.open (this.save_path+this.save_file, "a");
-			assert (stream != null);
-			//stdout.printf("%s", str);
-			stream.puts(str);
+			var dos = new DataOutputStream (save_f.create (FileCreateFlags.REPLACE_DESTINATION));
 			
+			assert (dos != null);
+			//stdout.printf("%s\n", str);
+			dos.put_string(str);
+		} catch (Error e) {
+			stdout.printf ("Error: %s\n", e.message);
 		}
-	
-		public void move_iso(Iso i){
-			var src = File.new_for_path(i.path);
-			var dest = File.new_for_path(stock_path+i.name+".iso");
-			try {
-				src.move (dest, FileCopyFlags.NONE, null, (current_num_bytes, total_num_bytes) => {
-						stdout.printf ("%" + int64.FORMAT + " %" + int64.FORMAT + "\n", current_num_bytes, total_num_bytes);
-					});
-			} catch (Error e) {
-				stdout.printf ("Error: %s\n", e.message);
-			}
-		}
-	
-		public Iso get_iso(int i){
-			return this._list_iso.get(i);
-		}
-
-		public void remove_iso_id(int i){
-			this._list_iso.remove_at(i);
-		}
-
-		public void remove_iso(Iso iso){
-			this._list_iso.remove(iso);
-		}
-
 	}
+	
+	public void move_iso(Iso i){
+		var src = File.new_for_path(i.path);
+		var dest = File.new_for_path(stock_path+i.name+".iso");
+		try {
+			// src.move (dest, FileCopyFlags.NONE, null, (current_num_bytes, total_num_bytes) => {
+			// 		stdout.printf ("%" + int64.FORMAT + " %" + int64.FORMAT + "\n", current_num_bytes, total_num_bytes);
+			// 	});
+			src.move (dest, FileCopyFlags.NONE, null, null);
+		} catch (Error e) {
+			stdout.printf ("Error: %s\n", e.message);
+		}
+	}
+	
+	public Iso get_iso(int i){
+		return this._list_iso.get(i);
+	}
+
+	public void remove_iso_id(int i){
+		this._list_iso.remove_at(i);
+	}
+
+	public void remove_iso(Iso iso){
+		this._list_iso.remove(iso);
+	}
+
+}

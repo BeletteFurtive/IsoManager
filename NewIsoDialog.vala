@@ -15,6 +15,8 @@ public class NewIsoDialog : MessageDialog {
 	private Grid grid;
 	private TextView description;
 	private Label description_label;
+	private Button button_add;
+	private Button cancel_button;
 	
 	public string iso_name {
         get { return _iso_name; }
@@ -63,14 +65,14 @@ public class NewIsoDialog : MessageDialog {
 		entry.set_halign(Align.END);
 
 		this.description_label = new Label("Description : ");
-		entry_label.set_margin_start(10);
-		entry_label.set_hexpand(true);
-		entry_label.set_halign(Align.START);
+		description_label.set_margin_start(10);
+		description_label.set_hexpand(true);
+		description_label.set_halign(Align.START);
 		
 		this.description = new TextView();
 		description.set_wrap_mode(Gtk.WrapMode.WORD);
-		description.set_halign(Align.END);
-				
+		
+		
 		this.grid = new Grid();
 		grid.attach(new_file_label, 0, 0, 1, 1);
 		grid.attach(new_file_button, 1, 0, 1, 1);
@@ -81,8 +83,9 @@ public class NewIsoDialog : MessageDialog {
 		
 		content.pack_start (grid, false, true, 0);
 
-		add_button ("_Close", Gtk.ResponseType.CLOSE);
-		add_button ("_Add", Gtk.ResponseType.APPLY);
+		this.cancel_button = add_button ("_Close", Gtk.ResponseType.CLOSE) as Button;
+		this.button_add = add_button("_Add", Gtk.ResponseType.APPLY) as Button;
+		this.button_add.sensitive=false;
 	}
 	
 	private void connect_signals () {
@@ -90,6 +93,7 @@ public class NewIsoDialog : MessageDialog {
 		this.new_file_button.selection_changed.connect (() => {
 				var filename = new_file_button.get_filename ();
 				this._file = filename;
+				this.button_add.sensitive=true;
 			});
 	}
 
@@ -102,9 +106,10 @@ public class NewIsoDialog : MessageDialog {
 			iso.description = this.description.buffer.text;
 			iso.path = this.file;
 			iso.image_path = "gloupti.png";
-			stdout.printf ("%s\n", this.file );			
 			display.iso_manager.add_iso(iso);
-			display.iso_manager.move_iso(iso);
+			display.iso_manager.save_iso();
+			
+			//display.iso_manager.move_iso(iso);
 			display.update();
 			destroy ();			
 			break;
