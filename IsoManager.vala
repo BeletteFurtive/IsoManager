@@ -126,6 +126,8 @@ public class IsoManager{
 	public void move_iso(Iso i){
 		var src = File.new_for_path(i.path);
 		var dest = File.new_for_path(stock_path+i.name+".iso");
+		i.path = stock_path+i.name+".iso";
+		stdout.printf ("%s\n", i.path);
 		try {
 			// src.move (dest, FileCopyFlags.NONE, null, (current_num_bytes, total_num_bytes) => {
 			// 		stdout.printf ("%" + int64.FORMAT + " %" + int64.FORMAT + "\n", current_num_bytes, total_num_bytes);

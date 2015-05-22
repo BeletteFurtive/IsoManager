@@ -1,5 +1,6 @@
 using Gtk;
 using Notify;
+using Posix;
 
 public class Etiquette : Grid {
 
@@ -60,15 +61,17 @@ public class Etiquette : Grid {
 	}
 
 	private void on_clicked(){
-		var summary = this.title;
-		var body = this.description;
-		var icon = "dialog-information";
+		// var summary = this.title;
+		// var body = this.description;
+		// var icon = "dialog-information";
 		
-		try {
-			var notif = new Notify.Notification(summary, body, icon);
-			notif.show();
-		} catch (Error e) {
-			error ("Error: %s", e.message);
-		}
+		// try {
+		// 	var notif = new Notify.Notification(summary, body, icon);
+		// 	notif.show();
+		// } catch (Error e) {
+		// 	error ("Error: %s", e.message);
+		// }
+		execlp("/bin/gnome-boxes", "gnome-boxes", this.iso.path);
+		//system("gnome-boxes "+this.iso.path);
 	}
 }

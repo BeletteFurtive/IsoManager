@@ -107,9 +107,8 @@ public class NewIsoDialog : MessageDialog {
 			iso.path = this.file;
 			iso.image_path = "gloupti.png";
 			display.iso_manager.add_iso(iso);
+			display.iso_manager.move_iso(iso);
 			display.iso_manager.save_iso();
-			
-			//display.iso_manager.move_iso(iso);
 			display.update();
 			destroy ();			
 			break;
