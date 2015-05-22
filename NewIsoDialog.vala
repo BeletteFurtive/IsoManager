@@ -69,6 +69,7 @@ public class NewIsoDialog : MessageDialog {
 		
 		this.description = new TextView();
 		description.set_wrap_mode(Gtk.WrapMode.WORD);
+		description.set_halign(Align.END);
 				
 		this.grid = new Grid();
 		grid.attach(new_file_label, 0, 0, 1, 1);
