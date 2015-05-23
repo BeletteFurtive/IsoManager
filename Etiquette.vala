@@ -6,9 +6,7 @@ public class Etiquette : Grid {
 
 
 	public Iso _iso;
-	public string title="Description : \n";
-	public string description="Virtuellement, le corps de GLOUPTI n'est qu'un estomac. Il est capable d'avaler des objets aussi gros que lui. L'estomac de ce POKéMON contient un fluide spécial qui lui permet de digérer n'importe quoi.\n";
-
+	
 	private Image image;
 	private Button button;
 	private Label label;
@@ -61,17 +59,6 @@ public class Etiquette : Grid {
 	}
 
 	private void on_clicked(){
-		// var summary = this.title;
-		// var body = this.description;
-		// var icon = "dialog-information";
-		
-		// try {
-		// 	var notif = new Notify.Notification(summary, body, icon);
-		// 	notif.show();
-		// } catch (Error e) {
-		// 	error ("Error: %s", e.message);
-		// }
 		execlp("/bin/gnome-boxes", "gnome-boxes", this.iso.path);
-		//system("gnome-boxes "+this.iso.path);
 	}
 }

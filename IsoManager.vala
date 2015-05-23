@@ -52,23 +52,17 @@ public class IsoManager{
 			var root = parser.get_root();
 			unowned Json.Object obj_root = root.get_object ();
 
-//foreach (unowned string name in obj.get_members ()) {
-			//stdout.printf("%s\n", name);
 			unowned Json.Node iso = obj_root.get_member ("iso");
 			unowned Json.Object obj_iso = iso.get_object ();
 			foreach (unowned string iso_name in obj_iso.get_members ()) {
-				//stdout.printf("%s\n", iso_name);
 				unowned Json.Node property = obj_iso.get_member (iso_name);
 				unowned Json.Object obj_property = property.get_object ();
-				// foreach (unowned string iso_property in obj_property.get_members ()) {
-					//stdout.printf("%s : %s\n", iso_property, obj_property.get_string_member(iso_property));
-					var i = new Iso();
-					i.name = obj_property.get_string_member("name");
-					i.description = obj_property.get_string_member("description");
-					i.path = obj_property.get_string_member("path");
-					i.image_path = obj_property.get_string_member("image_path");
-					this.add_iso(i);
-					// }
+				var i = new Iso();
+				i.name = obj_property.get_string_member("name");
+				i.description = obj_property.get_string_member("description");
+				i.path = obj_property.get_string_member("path");
+				i.image_path = obj_property.get_string_member("image_path");
+				this.add_iso(i);
 			}
 
 			this.save_iso();
@@ -116,7 +110,6 @@ public class IsoManager{
 			var dos = new DataOutputStream (save_f.create (FileCreateFlags.REPLACE_DESTINATION));
 			
 			assert (dos != null);
-			//stdout.printf("%s\n", str);
 			dos.put_string(str);
 		} catch (Error e) {
 			stdout.printf ("Error: %s\n", e.message);
@@ -129,9 +122,6 @@ public class IsoManager{
 		i.path = stock_path+i.name+".iso";
 		stdout.printf ("%s\n", i.path);
 		try {
-			// src.move (dest, FileCopyFlags.NONE, null, (current_num_bytes, total_num_bytes) => {
-			// 		stdout.printf ("%" + int64.FORMAT + " %" + int64.FORMAT + "\n", current_num_bytes, total_num_bytes);
-			// 	});
 			src.move (dest, FileCopyFlags.NONE, null, null);
 		} catch (Error e) {
 			stdout.printf ("Error: %s\n", e.message);
