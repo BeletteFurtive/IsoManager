@@ -10,8 +10,6 @@ public class Etiquette : Grid {
 	private Image image;
 	private Button button;
 	private Label label;
-
-
 	
     public Iso iso {
         get { return _iso; }
@@ -53,12 +51,11 @@ public class Etiquette : Grid {
 	}
 
 	public void connect_signals(){
-		button.clicked.connect(on_clicked);
-
-		
+		button.clicked.connect(on_button_launch_clicked);
 	}
 
-	private void on_clicked(){
+	private void on_button_launch_clicked(){
 		execlp("/bin/gnome-boxes", "gnome-boxes", this.iso.path);
 	}
+
 }

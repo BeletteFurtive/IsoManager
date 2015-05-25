@@ -109,8 +109,8 @@ public class NewIsoDialog : MessageDialog {
 			display.iso_manager.add_iso(iso);
 			display.iso_manager.move_iso(iso);
 			display.iso_manager.save_iso();
-			display.update();
-			destroy ();			
+			display.add_content(iso);
+			destroy();			
 			break;
 		case Gtk.ResponseType.CLOSE:
 		 	destroy ();

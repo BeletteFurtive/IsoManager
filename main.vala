@@ -6,7 +6,7 @@ public static int main(string[] args){
 	Gtk.Settings.get_default ().gtk_application_prefer_dark_theme = true;
 
 	var im = new IsoManager();
-	im.load_iso();
+	//im.load_iso();
 	
 	var window = new Display(im);
 	

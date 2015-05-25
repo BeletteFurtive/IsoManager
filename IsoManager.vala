@@ -27,15 +27,13 @@ public class IsoManager{
 	public void setup(){
 		var file = File.new_for_path(stock_path);
 		var save_f = File.new_for_path(save_path+save_file);
-		var save_p = File.new_for_path(save_path);
 		try {
 			if(!file.query_exists()){
 				file.make_directory_with_parents();
 			}
 			if(!save_f.query_exists()){
-				save_p.make_directory_with_parents();
-				save_f.create(FileCreateFlags.NONE);
-			}
+			 	save_f.create(FileCreateFlags.NONE);
+			 }
 		} catch (Error e) {
 			stdout.printf ("Error: %s\n", e.message);
 		}
