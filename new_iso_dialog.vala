@@ -17,7 +17,7 @@ public class NewIsoDialog : MessageDialog {
 	private Label description_label;
 	private Button button_add;
 	private Button cancel_button;
-	
+
 	public string iso_name {
         get { return _iso_name; }
         set { _iso_name = value; }
@@ -36,7 +36,7 @@ public class NewIsoDialog : MessageDialog {
 		this.connect_signals();
 	}
 
-	
+
 	private void create_widgets () {
 		this.content = (get_content_area () as Gtk.Box);
 
@@ -53,12 +53,12 @@ public class NewIsoDialog : MessageDialog {
 		new_file_button.set_filter (filter);
 		filter.add_mime_type ("application/x-cd-image");
 
-		
+
 		this.entry_label = new Label("Name : ");
 		entry_label.set_margin_start(10);
 		entry_label.set_hexpand(true);
 		entry_label.set_halign(Align.START);
-		
+
 		this.entry = new Entry();
 		entry.set_margin_end(10);
 		entry.set_hexpand(true);
@@ -68,11 +68,11 @@ public class NewIsoDialog : MessageDialog {
 		description_label.set_margin_start(10);
 		description_label.set_hexpand(true);
 		description_label.set_halign(Align.START);
-		
+
 		this.description = new TextView();
 		description.set_wrap_mode(Gtk.WrapMode.WORD);
-		
-		
+
+
 		this.grid = new Grid();
 		grid.attach(new_file_label, 0, 0, 1, 1);
 		grid.attach(new_file_button, 1, 0, 1, 1);
@@ -80,14 +80,14 @@ public class NewIsoDialog : MessageDialog {
 		grid.attach(entry, 1, 1, 1, 1);
 		grid.attach(description_label, 0, 2, 1, 1);
 		grid.attach(description, 1, 2, 1, 1);
-		
+
 		content.pack_start (grid, false, true, 0);
 
 		this.cancel_button = add_button ("_Close", Gtk.ResponseType.CLOSE) as Button;
 		this.button_add = add_button("_Add", Gtk.ResponseType.APPLY) as Button;
 		this.button_add.sensitive=false;
 	}
-	
+
 	private void connect_signals () {
 		this.response.connect(on_response);
 		this.new_file_button.selection_changed.connect (() => {
@@ -97,7 +97,7 @@ public class NewIsoDialog : MessageDialog {
 			});
 	}
 
-	
+
 	private void on_response (Gtk.Dialog source, int response_id) {
 		switch (response_id) {
 		case Gtk.ResponseType.APPLY:
@@ -110,7 +110,7 @@ public class NewIsoDialog : MessageDialog {
 			display.iso_manager.move_iso(iso);
 			display.iso_manager.save_iso();
 			display.add_content(iso);
-			destroy();			
+			destroy();
 			break;
 		case Gtk.ResponseType.CLOSE:
 		 	destroy ();

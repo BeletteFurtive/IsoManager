@@ -3,7 +3,7 @@ using Notify;
 
 public class Display : Window {
 
-	
+
 	private IsoManager _im;
 	private ListBox _list;
 	private int count;
@@ -47,9 +47,6 @@ public class Display : Window {
 		this.set_titlebar(headerbar);
 
 		foreach(Iso iso in this._im.list_iso){
-			//var e = new Etiquette(iso);
-			//this.list.add(e);
-			//count++;
 			this.add_content(iso);
 		}
 
@@ -73,24 +70,16 @@ public class Display : Window {
 	}
 
 	public void add_content(Iso iso){
-		//var iso = this._im.list_iso.get(count);
 		var e = new Etiquette(iso);
-		//this.list.insert(e, count);
-		//this.count++;
 		this.list.add(e);
 		show_all();
 	}
 
 	public void remove_content(){
-		//var iso = this._im.list_iso.get(count);
-		//var e = new Etiquette(iso);
-		//this.list.insert(e, count);
-		//this.count++;
 		var row = this.list.get_selected_row();
-		this.iso_manager.remove_iso((row.get_header() as Etiquette).iso);
+		this.iso_manager.remove_iso((row.get_child() as Etiquette).iso);
 
 		this.list.remove(row);
-		stdout.printf("plop\n");
 		show_all();
 	}
 

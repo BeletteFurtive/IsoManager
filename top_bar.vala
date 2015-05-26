@@ -52,6 +52,6 @@ public class TopBar : HeaderBar {
 		Display d = this.get_parent() as Display;
 		//d.iso_manager.remove_iso(this.iso);
 		d.remove_content();
-		//d.iso_manager.save_iso();		
+		d.iso_manager.save_iso();		
 	}
 }

@@ -11,17 +11,17 @@ public class IsoManager{
 	public string stock_path = GLib.Environment.get_home_dir()+"/Documents/IsoManager/";
 	public string save_path = GLib.Environment.get_home_dir()+"/.local/share/isomanager/";
 	public string save_file = "iso.json";
-	
+
 	public ArrayList<Iso> list_iso {
 		get { return _list_iso; }
         set { _list_iso = value; }
     }
-	
+
 
 	public IsoManager() {
 		this._list_iso = new ArrayList<Iso>();
 		this.setup();
-		
+
 	}
 
 	public void setup(){
@@ -38,7 +38,7 @@ public class IsoManager{
 			stdout.printf ("Error: %s\n", e.message);
 		}
 	}
-	
+
 	public void add_iso(Iso i){
 		this._list_iso.add(i);
 	}
@@ -78,15 +78,15 @@ public class IsoManager{
 
 			var builder = new Json.Builder();
 			builder.begin_object ();
-			
-			builder.set_member_name ("iso");			
+
+			builder.set_member_name ("iso");
 			builder.begin_object();
-			
-			
+
+
 			foreach(Iso iso in this.list_iso){
 				builder.set_member_name(iso.name);
 				builder.begin_object();
-			
+
 				builder.set_member_name ("name");
 				builder.add_string_value (iso.name);
 				builder.set_member_name ("description");
@@ -106,14 +106,14 @@ public class IsoManager{
 
 			var str = generator.to_data (null);
 			var dos = new DataOutputStream (save_f.create (FileCreateFlags.REPLACE_DESTINATION));
-			
+
 			assert (dos != null);
 			dos.put_string(str);
 		} catch (Error e) {
 			stdout.printf ("Error: %s\n", e.message);
 		}
 	}
-	
+
 	public void move_iso(Iso i){
 		var src = File.new_for_path(i.path);
 		var dest = File.new_for_path(stock_path+i.name+".iso");
@@ -125,7 +125,7 @@ public class IsoManager{
 			stdout.printf ("Error: %s\n", e.message);
 		}
 	}
-	
+
 	public Iso get_iso(int i){
 		return this._list_iso.get(i);
 	}
