@@ -13,7 +13,7 @@ public class NewIsoDialog : MessageDialog {
 	private Entry entry;
 	private Box content;
 	private Grid grid;
-	private TextView description;
+	private Entry description;
 	private Label description_label;
 	private Button button_add;
 	private Button cancel_button;
@@ -29,6 +29,7 @@ public class NewIsoDialog : MessageDialog {
     }
 
 	public NewIsoDialog(Display d) {
+		this.set_transient_for(d);
 		this.display = d;
 		this.title = "Add new iso";
 		this.set_size_request(450,200);
@@ -69,17 +70,22 @@ public class NewIsoDialog : MessageDialog {
 		description_label.set_hexpand(true);
 		description_label.set_halign(Align.START);
 
-		this.description = new TextView();
-		description.set_wrap_mode(Gtk.WrapMode.WORD);
-
+		this.description = new Entry();
+		description.set_margin_end(10);
+		description.set_hexpand(true);
+		description.set_halign(Align.END);
+		
 
 		this.grid = new Grid();
+		grid.row_spacing = 5;
 		grid.attach(new_file_label, 0, 0, 1, 1);
 		grid.attach(new_file_button, 1, 0, 1, 1);
 		grid.attach(entry_label, 0, 1, 1, 1);
 		grid.attach(entry, 1, 1, 1, 1);
 		grid.attach(description_label, 0, 2, 1, 1);
 		grid.attach(description, 1, 2, 1, 1);
+		grid.attach(image_label, 0, 3, 1, 1);
+		grid.attach(image, 1, 3, 1, 1);
 
 		content.pack_start (grid, false, true, 0);
 

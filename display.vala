@@ -27,7 +27,6 @@ public class Display : Window {
 		this.title = "IsoManager";
 		this.window_position = WindowPosition.CENTER;
 		this.set_default_size(400, 300);
-
 		this.create_widgets();
 		this.connect_signals();		
 	}

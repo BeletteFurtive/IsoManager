@@ -9,4 +9,7 @@ default:
 	$(VALAC) $(VALAFILES) -o $(EXEC) $(VALAPKGS) $(VALAOPTS)
 
 run:
-	./($EXEC)
+	./$(EXEC)
+
+clean:	
+	rm $(EXEC)
