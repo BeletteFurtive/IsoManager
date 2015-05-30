@@ -33,7 +33,7 @@ public class IsoManager{
 			}
 			if(!save_f.query_exists()){
 			 	save_f.create(FileCreateFlags.NONE);
-			 }
+			}
 		} catch (Error e) {
 			stdout.printf ("Error: %s\n", e.message);
 		}
@@ -121,7 +121,8 @@ public class IsoManager{
 		stdout.printf ("%s\n", i.path);
 		try {
 			src.move (dest, FileCopyFlags.NONE, null, null);
-		} catch (Error e) {
+		}
+		catch (Error e) {
 			stdout.printf ("Error: %s\n", e.message);
 		}
 	}
@@ -138,4 +139,14 @@ public class IsoManager{
 		this._list_iso.remove(iso);
 	}
 
+	public bool name_is_unique(string name){
+		var unique = true;
+		
+		foreach(Iso iso in this.list_iso){
+			if(name == iso.name){
+			   unique = false;
+			}
+		}
+		return unique;
+	}
 }
