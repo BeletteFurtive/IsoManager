@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Problem Reporting
+Comment=View and report application crashes
+Exec=isoManager
+Terminal=false
+Type=Application
